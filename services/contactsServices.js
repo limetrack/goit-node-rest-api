@@ -1,25 +1,15 @@
 import { Contact } from "../models/contact.js";
 
-export async function listContacts({ skip = 0, limit = 20, favorite, owner }) {
-  const where = { owner };
-
-  if (favorite !== undefined) {
-    where.favorite = favorite === "true";
-  }
-
-  return await Contact.findAll({
-    where,
-    offset: skip,
-    limit: parseInt(limit),
-  });
+export async function listContacts() {
+  return await Contact.findAll();
 }
 
 export async function getContactById(contactId) {
   return await Contact.findByPk(contactId);
 }
 
-export async function addContact(name, email, phone, owner) {
-  return await Contact.create({ name, email, phone, owner });
+export async function addContact(name, email, phone) {
+  return await Contact.create({ name, email, phone });
 }
 
 export async function removeContact(contactId) {

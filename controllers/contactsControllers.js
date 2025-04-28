@@ -11,11 +11,7 @@ import HttpError from "../helpers/HttpError.js";
 
 export const getAllContacts = async (req, res, next) => {
   try {
-    const { id: owner } = req.user;
-    const { page = 1, limit = 20, favorite } = req.query;
-    const skip = (page - 1) * limit;
-
-    const contacts = await listContacts({ skip, limit, favorite, owner });
+    const contacts = await listContacts();
 
     res.status(200).json(contacts);
   } catch (error) {
@@ -57,10 +53,9 @@ export const deleteContact = async (req, res, next) => {
 
 export const createContact = async (req, res, next) => {
   try {
-    const { id: owner } = req.user;
     const { name, email, phone } = req.body;
 
-    const newContact = await addContact(name, email, phone, owner);
+    const newContact = await addContact(name, email, phone);
 
     res.status(201).json(newContact);
   } catch (error) {
@@ -72,6 +67,8 @@ export const editContact = async (req, res, next) => {
   try {
     const { id } = req.params;
     const updates = req.body;
+
+		console.log("---req.body: ", req.body)
 
     if (!Object.keys(updates).length) {
       throw HttpError(400, "Body must have at least one field");

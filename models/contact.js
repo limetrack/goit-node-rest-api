@@ -30,5 +30,3 @@ export const Contact = sequelize.define(
     timestamps: false,
   }
 );
-
-export default Contact;
